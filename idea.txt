@@ -11,7 +11,7 @@ Monitor
 		sMonitor.acquire(); // Va a esperar hasta que un estudiante en la fila lo despierte.
 		// Pide que pase el siguiente.
 		sCorredor.acquire();	// Debido a lo anterior,
-		corredor.pop();			// es necesario reducir
+		corredor.add(0);			// es necesario reducir
 		sCorredor.release();	// las sillas disponibles.
 		// Realiza la monitoria.
 		sMonitoria.release();	// Se informa al estudiante actual que puede irse.
@@ -26,7 +26,7 @@ Estudiante
 			//Indica que no hay cupo en el corredor. Vuelve a programar en sala.
 			sCorredor.release();
 		} else {
-			corredor.add(0);
+			corredor.pop();
 			// Indica que esta esperando en cola.
 			sCorredor.release(); // Avisa al monitor que es el siguiente (y lo despierta si estaba durmiendo)
 			sMonitor.release(); // Espera que termine la monitoria.
